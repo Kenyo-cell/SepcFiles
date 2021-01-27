@@ -82,15 +82,16 @@ public class App
         }
     }
 
-    public static String readJSON(String fileName) {
+    public static List<Employee> readJSON(String fileName) {
+        List<Employee> list = new ArrayList<>();
         try (JsonReader reader = new JsonReader(new FileReader(fileName))) {
             Type type = new TypeToken<List<Employee>>(){}.getType();
-            List<Employee> l = new Gson().fromJson(reader, type);
-            l.forEach(System.out::println);
+            list = new Gson().fromJson(reader, type);
+            list.forEach(System.out::println);
         } catch (IOException e) {
             System.err.println(e);
         }
-        return "";
+        return list;
     }
 
     public static void main( String[] args )
@@ -104,7 +105,7 @@ public class App
         List<Employee> xmlList = parseXML(path + "data.xml");
         writeJSON(xmlList, path + "data2.json");
         // 3
-        readJSON(path + "data.json");
-        readJSON(path + "data2.json");
+        readJSON(path + "data.json").forEach(System.out::println);
+        readJSON(path + "data2.json").forEach(System.out::println);
     }
 }
